@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Web Compiler</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Web Compiler</h2>
+        </div>
+        <div class="description">
+            <p>Welcome to the web compiler. Select the language you want to code the program in. 
+                Type the code in the editor and hit compile to run the code.</p>
+        </div>
+        <div class="content">
+            <div id="options">
+                <label> Select Language: </label> 
+                <select id="language">
+                    <option value="c">C</option>
+                    <option value="cpp">C++</option>
+                    <option value="java">Java</option>
+                    <option value="python">Python</option>
+                </select>
+                <button id="compile">Compile</button> <br>
+            </div>
+            <div id="editor">
+                <h3>Editor:</h3>
+                <textarea id="code"></textarea>
+            </div>
+            <div id="output">
+                <h3>Output:</h3>
+                <textarea id="output-text" readonly></textarea>
+            </div> 
+        </div>
+    </div>
+</html>

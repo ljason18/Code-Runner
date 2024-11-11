@@ -1,0 +1,44 @@
+body {
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.container {
+    margin: 0 auto;
+    width: 80%;
+}
+
+h1 {
+    margin: 0;
+}
+
+textarea {
+    width: 100%;
+    height: 700px;
+}
+
+#language {
+    padding: 10px;
+    width: fit-content;
+}
+
+#compile {
+    margin-left: auto;
+    background-color: #19b2e0;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+}
+
+#compile:hover {
+    background-color: #0f9cb7;
+}
