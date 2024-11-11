@@ -2,8 +2,12 @@ import docker
 
 class TaskManager:
     def __init__(self):
-        self.client = docker.from_env()
-        
+        try:
+            print("Initializing Docker client...")
+            self.client = docker.from_env()
+        except Exception as e:
+            print(f"Error initializing Docker client: {str(e)}")
+
     def process(self, code, language, task_id):
         image = self.get_docker_image(language)
         
