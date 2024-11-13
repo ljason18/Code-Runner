@@ -5,7 +5,9 @@ An implementation of a web compiler used to compile code directly without the ne
 Languages supported: Java, C/C++, Python
 
 ## Requirments
-- docker
+- Docker
+ - This project is intended to be ran using a Linux distribution and not Windows
+ - Will not run properly due to Windows using named pipes instead of sockets
 
 ## Setup
 Use ```docker compose up --build``` to build the latest version of the image.
@@ -26,10 +28,23 @@ server-1  | Error initializing Docker client: Error while fetching server API ve
 
 In the shell, run ```ls -l /var/run/docker.sock```
 
-If the output is the following then you need to update the ownership of the docker socket. The default ownership should be root:docker however if its root:root, then you need to change it.
+Then run ```getent group docker```
+
+If the ls -l doesnt say docker for the group, instead it outputs a GID. Then the GID of docker is not set properly, it should match the GID given in the ls -l command. If the getent command outputs a different GID for group docker,
+then go to the [Dockerfile](Dockerfile) and set ```ARG GID``` to the GID that owns docker.sock
+
+Example - GID given
 ```
-appuser@741c7064c66c:/app$ ls -l /var/run/docker.sock
-srw-rw---- 1 root root 0 Nov 13 01:58 /var/run/docker.sock
+appuser@fa3afecff2d8:/app$ ls -l /var/run/docker.sock
+srw-rw---- 1 root 1000 0 Nov 13 04:01 /var/run/docker.sock
+appuser@fa3afecff2d8:/app$ getent group docker
+docker:x:999:appuser
+```
+
+Example - group docker
+```
+appuser@f05402a20850:/app$ ls -l /var/run/docker.sock
+srw-rw---- 1 root docker 0 Nov 13 04:01 /var/run/docker.sock
 ```
 
 ## Using the project

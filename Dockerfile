@@ -21,7 +21,7 @@ WORKDIR /app
 # Create a non-privileged user that the app will run under.
 # See https://docs.docker.com/go/dockerfile-user-best-practices/
 ARG UID=10001
-ARG GID=999
+ARG GID=1000
 
 RUN  if ! getent group docker; then addgroup --gid "${GID}" docker; fi && \ 
     adduser \
