@@ -2,10 +2,10 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import uuid
-# import task_manager
+import task_manager                   
 
 app = FastAPI()
-# task_manager = task_manager.TaskManager()
+task_manager = task_manager.TaskManager()
 
 origins = [
     "http://localhost:3000",
@@ -35,7 +35,6 @@ async def compile(request: CompileRequest):
     print("code: ", code)
     print("language: ", language)
     
-    # result = task_manager.process(request.code, request.language, task_id)
-    # print("result: ", result)
-    # return {"task_id": task_id, "result": result}
-    return 0
+    result = task_manager.process(request.code, request.language, task_id)
+    print("result: ", result)
+    return {"task_id": task_id, "result": result}
