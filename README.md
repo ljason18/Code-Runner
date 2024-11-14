@@ -15,7 +15,7 @@ Use ```docker compose up --build``` to build the latest version of the image.
 Use ```docker compose up -d``` if image is already built
 
 ### Potential Errors and Debugging
-To start debugging, start the container with ```docker compose -f compose.yaml -f compose.debug.yaml up --build```.
+To start debugging, start the container with ```docker compose -f compose.debug.yaml up --build```.
 
 Then open a new terminal tab. And open up a shell inside the container with ```docker exec -it <containerID> /bin/bash```
 - Replace <containerID> with the containerID of the the server container
@@ -48,4 +48,4 @@ srw-rw---- 1 root docker 0 Nov 13 04:01 /var/run/docker.sock
 ```
 
 ## Using the project
-Go to ```http://127.0.0.1:8000``` in your web browser as the project will be locally hosted on your system.
+Go to ```http://127.0.0.1:8080``` in your web browser as the project will be locally hosted on your system.

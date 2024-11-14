@@ -10,14 +10,33 @@
 services:
   server:
     build:
-      context: .
+      context: ./backend
     ports:
       - 8000:8000
+    depends_on:
+      - frontend
+    networks:
+      - app_net
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - ./backend:/app
     environment:
       - DOCKER_HOST=unix:///var/run/docker.sock
 
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - 8080:8080
+    volumes:
+      - ./frontend:/app
+    networks:
+      - app_net
+
+networks:
+  app_net:
+    driver: bridge
+    
 # The commented out section below is an example of how to define a PostgreSQL
 # database that your application can use. `depends_on` tells Docker Compose to
 # start the database before your application. The `db-data` volume persists the
