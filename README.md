@@ -6,8 +6,8 @@ Languages supported: Java, C/C++, Python
 
 ## Requirments
 - Docker
- - This project is intended to be ran using a Linux distribution and not Windows
- - Will not run properly due to Windows using named pipes instead of sockets
+    - This project is intended to be ran using a Linux distribution and not Windows
+     - Will not run properly due to Windows using named pipes instead of sockets
 
 ## Setup
 Use ```docker compose up --build``` to build the latest version of the image.
@@ -18,7 +18,7 @@ Use ```docker compose up -d``` if image is already built
 To start debugging, start the container with ```docker compose -f compose.debug.yaml up --build```.
 
 Then open a new terminal tab. And open up a shell inside the container with ```docker exec -it <containerID> /bin/bash```
-- Replace <containerID> with the containerID of the the server container
+- Replace containerID with the containerID of the the debug container
 
 #### Permission denied
 ```
@@ -30,8 +30,9 @@ In the shell, run ```ls -l /var/run/docker.sock```
 
 Then run ```getent group docker```
 
-If the ls -l doesnt say docker for the group, instead it outputs a GID. Then the GID of docker is not set properly, it should match the GID given in the ls -l command. If the getent command outputs a different GID for group docker,
+If ls -l doesnt say docker for the group, and instead it outputs a GID. Then the GID of docker is not set properly, it should match the GID given in the ls -l command. If the getent command outputs a different GID for group docker,
 then go to the [Dockerfile](Dockerfile) and set ```ARG GID``` to the GID that owns docker.sock
+- The GID of the docker group can differ depending on your system
 
 Example - GID given
 ```
