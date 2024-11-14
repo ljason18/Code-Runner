@@ -12,7 +12,14 @@ function sendRequest() {
             language: language
         })
     }).then(response => {
+        displayOutput("Compiling...");
+        displayOutput("Running...");
         if (response.ok) {
+            response.json().then(data => {
+                displayOutput(data.result);
+            }).catch(error => {
+                console.error('Error:', error);
+            })
             return response.json();
         } else {
             throw new Error('Something went wrong');
@@ -20,4 +27,8 @@ function sendRequest() {
     }).catch(error => {
         console.error('Error:', error);
     })
+}
+
+function displayOutput(output) {
+    document.getElementById('output-text').value = output;
 }
