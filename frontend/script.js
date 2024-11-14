@@ -2,9 +2,6 @@ function sendRequest() {
     code = document.getElementById('code').value;
     language = document.getElementById('language').value;
 
-    console.log("Sending request...");
-    console.log("Code: " + code);
-    console.log("Language: " + language);
     fetch('http://127.0.0.1:8000/compile', {
         method: 'POST',
         headers: {

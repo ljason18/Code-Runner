@@ -1,7 +1,7 @@
 services:
   debug:
     build:
-      context: ./backend
+      context: ./debug
     ports:
       - 8000:8000
     volumes:
