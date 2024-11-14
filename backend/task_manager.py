@@ -69,6 +69,9 @@ class TaskManager:
             execute_command = self.get_compile_command(language, compile_only=False)
             exec_result = container.exec_run(execute_command)
             
+            container.stop()
+            container.remove()
+            
             return exec_result.output.decode("utf-8")
         
         except Exception as e:

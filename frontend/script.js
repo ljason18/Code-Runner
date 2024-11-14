@@ -1,7 +1,7 @@
 function sendRequest() {
     code = document.getElementById('code').value;
     language = document.getElementById('language').value;
-
+    displayOutput("Compiling...");
     fetch('http://127.0.0.1:8000/compile', {
         method: 'POST',
         headers: {
@@ -12,8 +12,6 @@ function sendRequest() {
             language: language
         })
     }).then(response => {
-        displayOutput("Compiling...");
-        displayOutput("Running...");
         if (response.ok) {
             response.json().then(data => {
                 displayOutput(data.result);

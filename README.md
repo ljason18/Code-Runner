@@ -4,6 +4,7 @@ An implementation of a web compiler used to compile code directly without the ne
 
 Languages supported: Java, C/C++, Python
 
+Code may appear to be taking a long time to compile due to the program creating and removing docker containers for each execution.
 ## Requirments
 - Docker
     - This project is intended to be ran using a Linux distribution and not Windows
@@ -14,7 +15,7 @@ Use ```docker compose up --build``` to build the latest version of the image.
 
 Use ```docker compose up -d``` if image is already built
 
-### Potential Errors and Debugging
+### Potential Error(s) and Debugging
 To start debugging, start the container with ```docker compose -f compose.debug.yaml up --build```.
 
 Then open a new terminal tab. And open up a shell inside the container with ```docker exec -it <containerID> /bin/bash```
