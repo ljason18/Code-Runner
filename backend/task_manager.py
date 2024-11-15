@@ -9,8 +9,8 @@ class TaskManager:
             print("Initializing Docker client...")
             self.client = docker.from_env()
         except Exception as e:
-            print(f"Error initializing Docker client: {str(e)}")
-
+             print(f"Error initializing Docker client: {str(e)}")
+        
     def process(self, code, language):
         image = self.get_docker_image(language)
         try:
@@ -46,7 +46,7 @@ class TaskManager:
             
             # Check if the file is created
             if not os.path.exists(code_file_path):
-                return f"Error: File {code_file_path} was not created."
+                return f"Error: File {code_file_path} was not created.", container.id
             
             # Create a tar archive of the code file
             tar_stream = io.BytesIO()
@@ -62,10 +62,8 @@ class TaskManager:
                 compile_command = self.get_compile_command(language, compile_code=True)
                 exec_result = container.exec_run(compile_command)
                 if exec_result.exit_code != 0:
-                    print(f"Compilation error: {exec_result.output.decode('utf-8')}")
-                    container.stop()
-                    container.remove()
-                    return f"Compilation error: {exec_result.output.decode('utf-8')}"
+                    result = f"Compilation error: {exec_result.output.decode('utf-8')}"
+                    return result, container.id
             
             # Execute the code
             execute_command = self.get_compile_command(language, compile_code=False)
@@ -74,7 +72,7 @@ class TaskManager:
             return exec_result.output.decode("utf-8"), container.id
         
         except Exception as e:
-           return f"Error: {str(e)}"
+           return f"Error: {str(e)}", container.id or None
     
     def get_docker_image(self, language):
         images = {
