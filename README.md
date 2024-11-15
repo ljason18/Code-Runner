@@ -17,7 +17,7 @@ Use ```docker compose up -d``` if image is already built
 
 ### Potential Error(s) and Debugging
 #### Permission denied
-Quick Fix: run ```getent group docker``` and take note of the GID for the docker group. Then make sure that ```ARG GID``` in [Dockerfile](./backend/Dockerfile) is set to that GID.
+Quick Fix: run ```getent group docker``` on your system and take note of the GID for the docker group. Then make sure that ```ARG GID``` in [Dockerfile](./backend/Dockerfile) is set to that GID.
 
 To start debugging, start the container with ```docker compose -f compose.debug.yaml up --build```.
 
