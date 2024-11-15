@@ -23,7 +23,7 @@ function setupCodeMirror() {
   editor = CodeMirror(document.getElementById("editor"), {
     lineNumbers: true,
     mode: modeMap[language] || "javascript",
-    theme: "monokai",
+    theme: "default",
     tabSize: 2,
     autoCloseBrackets: true,
     styleActiveLine: true,
