@@ -9,11 +9,11 @@ const modeMap = {
 }
 
 const promptMap = {
-  javascript: "// Start typing your JavaScript code here\n",
-  java: "// Start typing your Java code here\n",
-  c: "// Start typing your C code here\n",
-  cpp: "// Start typing your C++ code here\n",
-  python: "# Start typing your Python code here\n"
+  javascript: "// Start typing your JavaScript code here\nconsole.log('Hello, World!');",
+  java: "// Start typing your Java code here\nclass Main \{\n\tpublic static void main(String[] args) \{\n\t\tSystem.out.println(\"Hello, World!\");\n\t}\n}",
+  c: "// Start typing your C code here\n#include <stdio.h>\nint main() \{\n\tprintf(\"Hello, World!\");\n\treturn 0;\n\}",
+  cpp: "// Start typing your C++ code here\n#include <iostream>\nint main() \{\n\tstd::cout << \"Hello, World!\";\n\treturn 0;\n\}",
+  python: "# Start typing your Python code here\nprint('Hello, World!')"
 }
 
 // Function to set up CodeMirror with the specified language mode
