@@ -38,6 +38,8 @@ class TaskManager:
                 code_file_path += "main.cpp"
             elif language == "python":
                 code_file_path += "main.py"
+            elif language == "javascript":
+                code_file_path += "main.js"
                 
             with open(code_file_path, "w") as code_file:
                 code_file.write(code)
@@ -56,8 +58,8 @@ class TaskManager:
             container.put_archive('/tmp', tar_stream)
             
             # Compile the code if necessary
-            if language != "python":
-                compile_command = self.get_compile_command(language, compile_only=True)
+            if language != "python" and language != "javascript":
+                compile_command = self.get_compile_command(language, compile_code=True)
                 exec_result = container.exec_run(compile_command)
                 if exec_result.exit_code != 0:
                     print(f"Compilation error: {exec_result.output.decode('utf-8')}")
@@ -66,7 +68,7 @@ class TaskManager:
                     return f"Compilation error: {exec_result.output.decode('utf-8')}"
             
             # Execute the code
-            execute_command = self.get_compile_command(language, compile_only=False)
+            execute_command = self.get_compile_command(language, compile_code=False)
             exec_result = container.exec_run(execute_command)
             
             container.stop()
@@ -83,13 +85,13 @@ class TaskManager:
             "java": "openjdk:latest",
             "c": "gcc:latest",
             "cpp": "gcc:latest",
+            "javascript": "node:latest",
         }
         return images.get(language, "python:3.12.7")
         
-    def get_compile_command(self, language, compile_only):
-        if compile_only:
+    def get_compile_command(self, language, compile_code):
+        if compile_code:
             commands = {
-                "python": "",
                 "java": "javac /tmp/Main.java",
                 "c": "gcc /tmp/main.c -o /tmp/main",
                 "cpp": "g++ /tmp/main.cpp -o /tmp/main",
@@ -100,5 +102,6 @@ class TaskManager:
                 "java": "java -cp /tmp Main",
                 "c": "/tmp/main",
                 "cpp": "/tmp/main",
+                "javascript": "node /tmp/main.js",
             }
         return commands.get(language, "echo 'Unsupported language'")

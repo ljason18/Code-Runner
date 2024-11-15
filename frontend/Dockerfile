@@ -1,16 +1,17 @@
 # syntax=docker/dockerfile:1.4
 
-ARG PYTHON_VERSION=3.12.7
-FROM python:${PYTHON_VERSION}-slim AS base
-
-# Prevents Python from writing pyc files.
-ENV PYTHONDONTWRITEBYTECODE=1
-
-# Keeps Python from buffering stdout and stderr to avoid situations where
-# the application crashes without emitting any logs due to buffering.
-ENV PYTHONUNBUFFERED=1
+FROM node:16 as build
 
 WORKDIR /app
 
+# Install dependencies
+RUN npm install -g http-server nodemon codemirror
+
+# Copy the frontend source code
+COPY . .
+
+# Expose the port the app runs on
+EXPOSE 8080
+
 # Run the application.
-CMD ["python", "-m", "http.server", "8080"]
+CMD ["npx", "nodemon", "--watch", ".", "--exec", "http-server", "-p", "8080"]

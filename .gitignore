@@ -1,5 +1,0 @@
-# Ignore Python cache files
-__pycache__/
-
-# Ignore Docker readme
-README.Docker.md
