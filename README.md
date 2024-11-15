@@ -4,7 +4,7 @@ An implementation of a web compiler used to compile code directly without the ne
 
 Languages supported: Java, C/C++, Python, JavaScript
 
-Code may appear to be taking a long time to compile due to the program creating and removing docker containers for each execution.
+The program enables syntax highlighting by utilizing a code editor from [CodeMirror](https://codemirror.net)
 ## Requirments
 - Docker
     - This project is intended to be ran using a Linux distribution and not Windows
