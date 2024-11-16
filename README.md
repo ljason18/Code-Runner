@@ -7,8 +7,7 @@ Languages supported: Java, C/C++, Python, JavaScript
 The program enables syntax highlighting by utilizing a code editor from [CodeMirror](https://codemirror.net)
 ## Requirments
 - Docker
-    - This project is intended to be ran using a Linux distribution and not Windows
-     - Will not run properly due to Windows using named pipes instead of sockets
+    - This project is intended to be ran using a Linux distribution and not Windows or Mac
 
 ## Setup
 Use ```docker compose up --build``` to build the latest version of the image.
