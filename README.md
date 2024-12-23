@@ -5,11 +5,27 @@ A web-based code editor designed to compile and execute code directly in the bro
 Languages supported: Java, C/C++, Python, JavaScript
 
 The program enables syntax highlighting by utilizing a code editor from [CodeMirror](https://codemirror.net)
+
+## Development Scope
+This project is currently configured for **local development only**. Key aspects are:
+- CORS Policy: Requests are restricted to localhost (127.0.0.1)
+- Protocol: Uses HTTP instead of HTTPS.
+- Connection Handling: The backend accepts connections from any source; however, due to the CORS policy, the frontend can only communicate with the backend through localhost.
+
+### Production Readiness
+Before deployment, the following changes will be required:
+- Enable Secure Communication: Use HTTPS with a valid SSL/TLS certificate.
+- Reconfigure CORS: Update the policy to allow requests from trusted origins.
+- Strengthen Security: Implement authentication and access controls to safeguard the application.
+
 ## Requirments
 - Docker
-    - This project is designed to run on a Linux distribution, not on Windows or Mac.
-        - Once the program is running, the webpage can be accessed from any system.
-    - The limitation is due to differences in Docker's socket/daemon communication mechanisms across operating systems
+    - This project is designed to run/host on a Linux distribution
+        - Currernt setup will not host properly on Windows systems.
+        - Hosting on macOS is untested
+    - The project is run inside a Docker container and attempts to communicate with the Docker socket/daemon on the host system. This means the socket must be mounted to the container.
+    - The container is a Linux container which uses Unix domain sockets. However, Windows uses named pipes instead of Unix sockets. Named pipes don’t have explicit permissions, which prevents a non-privileged user from communicating with the Docker socket when the host system is Windows.
+    - macOS should work similarly to Linux because it uses Unix domain sockets. However, performance is untested as I don't have access to a Mac system or VM.
 
 ## Setup
 Use ```docker compose up --build``` to build the latest version of the image.
@@ -18,26 +34,28 @@ Use ```docker compose up -d``` if image is already built
 
 ### Potential Error(s) and Debugging
 #### Permission denied
-Quick Fix: run ```getent group docker``` on your system and take note of the GID for the docker group. Then make sure that ```ARG GID``` in [Dockerfile](./backend/Dockerfile) is set to that GID.
-
-To start debugging, start the container with ```docker compose -f compose.debug.yaml up --build```.
-
-Then open a new terminal tab. And open up a shell inside the container with ```docker exec -it <containerID> /bin/bash```
-- Replace containerID with the containerID of the the debug container
 ```
 server-1  | Initializing Docker client...
 server-1  | Error initializing Docker client: Error while fetching server API version: ('Connection aborted.', PermissionError(13, 'Permission denied'))
 ```
+Quick Fix: run ```getent group docker``` on your system and take note of the GID for the docker group. Then make sure that ```ARG GID``` in [Dockerfile](./backend/Dockerfile) is set to that GID.
+
+##### Further Explanation
+Since the GID of the docker group is system-dependent, the GID used in the Dockerfile is might differ from the one on the host system.
+
+To start debugging, start the container with ```docker compose -f compose.debug.yaml up --build```.
+
+Then open a new terminal tab and access a shell inside the container with ```docker exec -it <containerID> /bin/bash```
+- Replace containerID with the containerID of the the debug container
 
 In the shell, run ```ls -l /var/run/docker.sock```
 
 Then run ```getent group docker```
 
-If ls -l doesnt say docker for the group, and instead it outputs a GID. Then the GID of docker is not set properly, it should match the GID given in the ls -l command. If the getent command outputs a different GID for group docker,
-then go to the [Dockerfile](./backend/Dockerfile) and set ```ARG GID``` to the GID that owns docker.sock
-- The GID of the docker group can differ depending on your system
+Check the output of the ```ls``` command for the group that owns the socket.
+- If a value is displayed, and it doesnt match the GID of the ```docker``` group, go to the [Dockerfile](./backend/Dockerfile) and set ```ARG GID``` to the GID that owns docker.sock
 
-Example - GID given
+Example
 ```
 appuser@fa3afecff2d8:/app$ ls -l /var/run/docker.sock
 srw-rw---- 1 root 1000 0 Nov 13 04:01 /var/run/docker.sock
@@ -45,11 +63,6 @@ appuser@fa3afecff2d8:/app$ getent group docker
 docker:x:999:appuser
 ```
 
-Example - group docker
-```
-appuser@f05402a20850:/app$ ls -l /var/run/docker.sock
-srw-rw---- 1 root docker 0 Nov 13 04:01 /var/run/docker.sock
-```
 
 ## Using the project
 Go to ```http://127.0.0.1:8080``` in your web browser as the project will be locally hosted on your system.
