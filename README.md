@@ -1,13 +1,15 @@
-# Web-Compiler
+# Code Runner
 ## Project Description
-An implementation of a web compiler used to compile code directly without the need to use an IDE or terminal. Allows for compiling code for different languages without requiring users to have the corresponding compilers installed. Utilizes docker containers to retrieve the corresponding docker image for each language compiler.
+A web-based code editor designed to compile and execute code directly in the browser. The program supports multiple programming languages without requiring users to install local compilers. It leverages Docker containers to fetch and run language-specific compiler images, ensuring a seamless and isolated execution environment. The output of the code is displayed immediately after execution. Currently, it only supports simple code that outputs results to standard output (stdout), such as text-based programs.
 
 Languages supported: Java, C/C++, Python, JavaScript
 
 The program enables syntax highlighting by utilizing a code editor from [CodeMirror](https://codemirror.net)
 ## Requirments
 - Docker
-    - This project is intended to be ran using a Linux distribution and not Windows or Mac
+    - This project is designed to run on a Linux distribution, not on Windows or Mac.
+        - Once the program is running, the webpage can be accessed from any system.
+    - The limitation is due to differences in Docker's socket/daemon communication mechanisms across operating systems
 
 ## Setup
 Use ```docker compose up --build``` to build the latest version of the image.
