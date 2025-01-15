@@ -6,6 +6,8 @@ Languages supported: Java, C/C++, Python, JavaScript
 
 The program enables syntax highlighting by utilizing a code editor from [CodeMirror](https://codemirror.net)
 
+The program supports providing inputs to the programs by reading from standard input (stdin).
+
 ## Development Scope
 This project is currently configured for **local development only**. Key aspects are:
 - CORS Policy: Requests are restricted to localhost (127.0.0.1)

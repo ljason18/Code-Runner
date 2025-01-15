@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Web Compiler</title>
+    <title>Code Runner</title>
 
     <!-- CodeMirror CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
@@ -10,17 +10,20 @@
 
     <link rel="stylesheet" type="text/css" href="style.css">
 
+    <link rel="icon" href="/favicon.ico?v=1" type="image/x-icon">
+
 </head>
 
 <body>
     <div class="container">
         <div class="header">
-            <h2>Web Compiler</h2>
+            <h2>Code Runner</h2>
         </div>
         <div class="description">
-            <p>Welcome to the web compiler. Select the language you want to code the program in.
+            <p>Welcome to the online code runner. Select the language you want to code the program in.
                 Type the code in the editor and hit compile to run the code. <br><br>
-                The output will be displayed below the editor. <br><br>
+                The output will be displayed below the editor (or input if toggled). 
+                The input box can be toggle to passing inputs to the program. The input will be cleared when hidden. <br><br>
                 Only supports the usage of standard packages and libraries. <br>
             </p>
         </div>
@@ -39,8 +42,12 @@
             <div id="editor">
                 <h3>Editor:</h3>
             </div>
+            <div id="input">
+                <h3 id="input-header" onclick="toggleInput()">Input</h3>
+                <textarea id="input-text"></textarea>
+            </div>
             <div id="output">
-                <h3>Output:</h3>
+                <h3 id="output-header">Output</h3>
                 <textarea id="output-text" readonly></textarea>
             </div>
         </div>

@@ -7,11 +7,7 @@ app = FastAPI()
 task_manager = task_manager.TaskManager()
 
 origins = [
-    "http://localhost:3000",
-    "http://localhost:8000",
     "http://localhost:8080",
-    "http://127.0.0.1:3000",
-    "http://127.0.0.1:8000",
     "http://127.0.0.1:8080"
 ]
 
@@ -26,6 +22,7 @@ app.add_middleware(
 class CompileRequest(BaseModel):
     code: str
     language : str
+    input: str
 
 def clean_up(container):
     try:
@@ -40,6 +37,6 @@ async def read_root():
 
 @app.post("/compile")
 async def compile(request: CompileRequest, background_tasks: BackgroundTasks):
-    result, containerID = task_manager.process(request.code, request.language)
+    result, containerID = task_manager.process(request.code, request.language, request.input)
     background_tasks.add_task(clean_up, task_manager.client.containers.get(containerID))
     return {"result": result}

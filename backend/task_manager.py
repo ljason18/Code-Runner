@@ -11,7 +11,7 @@ class TaskManager:
         except Exception as e:
              print(f"Error initializing Docker client: {str(e)}")
         
-    def process(self, code, language):
+    def process(self, code, language, input):
         image = self.get_docker_image(language)
         try:
             self.client.images.pull(image)
@@ -28,7 +28,8 @@ class TaskManager:
             container.exec_run("mkdir -p /tmp")
             
             # Write code to a temporary file
-            code_file_path = f"/tmp/"
+            file_path =  "/tmp/"
+            code_file_path = file_path
             
             if language == "java":
                 code_file_path += "Main.java"
@@ -43,15 +44,27 @@ class TaskManager:
                 
             with open(code_file_path, "w") as code_file:
                 code_file.write(code)
-            
+                
             # Check if the file is created
             if not os.path.exists(code_file_path):
                 return f"Error: File {code_file_path} was not created.", container.id
+            
+            # Create input file if needed
+            input_file_path = None
+            if input:
+                input_file_path = file_path + "input.txt"
+                with open(input_file_path, "w") as input_file:
+                    input_file.write(input)
+                    
+                if not os.path.exists(input_file_path):
+                    return f"Error: File {input_file_path} was not created.", container.id
             
             # Create a tar archive of the code file
             tar_stream = io.BytesIO()
             with tarfile.open(fileobj=tar_stream, mode='w') as tar:
                 tar.add(code_file_path, arcname=os.path.basename(code_file_path))
+                if input_file_path and os.path.exists(input_file_path):
+                    tar.add(input_file_path, arcname=os.path.basename(input_file_path))
             tar_stream.seek(0)
             
             # Put the tar archive into the container
@@ -66,7 +79,14 @@ class TaskManager:
                     return result, container.id
             
             # Execute the code
-            execute_command = self.get_compile_command(language, compile_code=False)
+            # Wrapped in a shell to handle input redirection from a file
+            execute_command = f"/bin/sh -c '{self.get_compile_command(language, compile_code=False)}"
+            
+            if input:
+                execute_command += f" < {input_file_path}'"
+                print(execute_command)
+            else:
+                ecexute_command += "'"
             exec_result = container.exec_run(execute_command)
             
             return exec_result.output.decode("utf-8"), container.id

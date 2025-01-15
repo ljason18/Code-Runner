@@ -55,6 +55,7 @@ function changeMode() {
 function sendRequest() {
   code = editor.getValue();
   language = document.getElementById('language').value;
+  input = document.getElementById('input-text').value;
   displayOutput("Compiling...");
   fetch('http://127.0.0.1:8000/compile', {
       method: 'POST',
@@ -63,7 +64,8 @@ function sendRequest() {
       },
       body: JSON.stringify({
           code: code,
-          language: language
+          language: language,
+          input: input
       })
   }).then(response => {
       if (response.ok) {
@@ -83,4 +85,15 @@ function sendRequest() {
 
 function displayOutput(output) {
   document.getElementById('output-text').value = output;
+}
+
+function toggleInput() {
+  const input = document.getElementById('input-text');
+  const isHidden = input.style.display === 'none';
+
+  input.style.display = isHidden ? 'block' : 'none';
+
+  if (!isHidden) {
+     input.value = '';
+  }
 }
